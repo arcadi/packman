@@ -11,9 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20131217195652) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "products", force: true do |t|
+    t.string   "number",      limit: 15,             null: false
+    t.string   "name"
+    t.integer  "width",                  default: 0, null: false
+    t.integer  "height",                 default: 0, null: false
+    t.integer  "depth",                  default: 0, null: false
+    t.integer  "weight",                 default: 0, null: false
+    t.integer  "stock_level",            default: 0, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "products", ["number"], name: "index_products_on_number", unique: true, using: :btree
 
 end

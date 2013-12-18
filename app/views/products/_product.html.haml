@@ -1,0 +1,12 @@
+%tr
+  %td= product_counter + 1
+  %td= link_to product.number, product_path(product)
+  %td= product.name
+  %td= product.width
+  %td= product.height
+  %td= product.depth
+  %td= product.weight
+  %td= product.stock_level
+  %td
+    = link_to t("helpers.links.edit"), edit_product_path(product), :class => 'btn btn-mini'
+    = link_to t("helpers.links.destroy"), product_path(product), :method => :delete, :data => { :confirm => t("helpers.links.confirm") }, :class => 'btn btn-mini btn-danger'

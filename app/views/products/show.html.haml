@@ -1,0 +1,31 @@
+- model_class = Product
+.page-header
+  %h1= model_class.model_name.human.titleize
+
+%p
+  %strong= model_class.human_attribute_name(:number) + ':'
+  = @product.number
+%p
+  %strong= model_class.human_attribute_name(:name) + ':'
+  = @product.name
+%p
+  %strong= model_class.human_attribute_name(:width) + ':'
+  = @product.width
+%p
+  %strong= model_class.human_attribute_name(:height) + ':'
+  = @product.height
+%p
+  %strong= model_class.human_attribute_name(:depth) + ':'
+  = @product.depth
+%p
+  %strong= model_class.human_attribute_name(:weight) + ':'
+  = @product.weight
+%p
+  %strong= model_class.human_attribute_name(:stock_level) + ':'
+  = @product.stock_level
+
+.form-actions
+  = link_to t("helpers.links.back"), products_path, :class => 'btn'
+  = link_to t("helpers.links.edit"), edit_product_path(@product), :class => 'btn'
+  = link_to t("helpers.links.destroy"), product_path(@product), :method => "delete",
+    :data => { :confirm => t("helpers.links.confirm") }, :class => 'btn btn-danger'

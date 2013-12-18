@@ -1,0 +1,11 @@
+= simple_form_for @product, :html => { :class => 'form-horizontal' } do |f|
+  = f.input :number
+  = f.input :name
+  = f.input :width
+  = f.input :height
+  = f.input :depth
+  = f.input :weight
+  = f.input :stock_level
+  .form-actions
+    = f.button :submit, :class => 'btn-primary'
+    = link_to t("helpers.links.cancel"), products_path, :class => 'btn'

@@ -1,5 +1,7 @@
 Packman::Application.routes.draw do
 
+  resources :products
+
   get "welcome/index"
 
   root 'welcome#index'
