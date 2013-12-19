@@ -2,26 +2,29 @@ class Order
   include ActiveModel::Model
   include ActiveModel::Validations::Callbacks
 
-  attr_accessor :box, :items, :parcels
+  attr_accessor :box, :items
+  attr_reader :parcels, :unpacked_items, :box_model
 
   validates :box, :items, presence: true
-
   validate :items_validation
   validate :box_validation
 
   def initialize(params={})
     @box = params[:box]
+    @box_model = Box.find_by_id(@box)
     @items = parse_items(params[:items]) || [Item.new]
   end
 
   def pack!
-    @parcels = pack_parcels
+    @parcels = []
+    @unpacked_items = []
+    pack_parcels
   end
 
   private
 
   def box_validation
-    errors.add(:box, I18n.t('errors.order.box_not_found')) if Box.find_by_id(box).blank?
+    errors.add(:box, I18n.t('errors.order.box_not_found')) if box_model.blank?
   end
 
   def items_validation
@@ -31,12 +34,32 @@ class Order
   end
 
   def pack_parcels
-    parcels = []
     items.each do |item|
-
+      if cannot_be_packed?(item)
+        @unpacked_items << item
+      else
+        item.counter.times do
+          add_parcel(item) unless add_product_to_parcels(item)
+        end
+      end
     end
-    parcel = Parcel.new
-    parcels
+  end
+
+  def cannot_be_packed?(item)
+    item.product.volume > box_model.volume
+  end
+
+  def add_product_to_parcels(item)
+    @parcels.each do |parcel|
+      return true if parcel.add_product(item.product)
+    end
+    false
+  end
+
+  def add_parcel(item=nil)
+    parcel = Parcel.new(box_model)
+    parcel.add_product(item.product) if item
+    @parcels.push(parcel)
   end
 
   def parse_items(items_params=[])

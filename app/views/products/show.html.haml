@@ -10,19 +10,19 @@
   = @product.name
 %p
   %strong= model_class.human_attribute_name(:width) + ':'
-  = @product.width
+  = number_with_delimiter @product.width
 %p
   %strong= model_class.human_attribute_name(:height) + ':'
-  = @product.height
+  = number_with_delimiter @product.height
 %p
   %strong= model_class.human_attribute_name(:depth) + ':'
-  = @product.depth
+  = number_with_delimiter @product.depth
 %p
   %strong= model_class.human_attribute_name(:weight) + ':'
-  = @product.weight
+  = number_with_delimiter @product.weight
 %p
   %strong= model_class.human_attribute_name(:stock_level) + ':'
-  = @product.stock_level
+  = number_with_delimiter @product.stock_level
 
 .form-actions
   = link_to t("helpers.links.back"), products_path, :class => 'btn'

@@ -1,0 +1,6 @@
+%tr
+  %td= unpacked_item_counter + 1
+  %td= link_to unpacked_item.product.number, product_path(unpacked_item.product)
+  %td= unpacked_item.product.name
+  %td= number_with_delimiter unpacked_item.counter
+  %td= number_with_delimiter unpacked_item.product.volume

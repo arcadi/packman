@@ -1,8 +1,25 @@
 - model_class = Order
 .page-header
-  %h1=t('helpers.titles.new', :model => model_class.model_name.human.titleize)
+  %h1=model_class.model_name.human.titleize
 
-%h2='Parcels'
+%h3=t('headers.box')
+%h4
+  = @order.box_model.name
+  %small
+    = number_with_delimiter(@order.box_model.volume)
 
-%ul
-  =render(@order.parcels)
+- unless @order.parcels.blank?
+  %h3=t('headers.parcels')
+  %ul
+    =render(partial:'parcel', collection: @order.parcels)
+
+- unless @order.unpacked_items.blank?
+  %h3=t('headers.unpacked_products')
+  %table.table.table-striped
+    %tr
+      %th="#"
+      %th=t('table.product.number')
+      %th=t('table.product.name')
+      %th=t('table.product.count')
+      %th=t('table.product.volume')
+    =render(partial: 'unpacked_item', collection: @order.unpacked_items)

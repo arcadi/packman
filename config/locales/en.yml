@@ -21,7 +21,9 @@
 
 en:
   headers:
-    new_order: "New order"
+    new_order: 'New order'
+    parcels: 'Parcels'
+    unpacked_products: 'Unpacked products'
   buttons:
     order:
       pack: 'Pack'
@@ -37,3 +39,15 @@ en:
     order:
       box_not_found: 'Box not found'
       incorrect_items: 'Items are incorrect'
+  labels:
+    volume: 'Volume'
+  table:
+    product:
+      volume: 'Volume'
+      number: 'Number'
+      name: 'Name'
+    unpacked_item:
+      number: 'Number'
+      name: 'Name'
+      count: 'Count'
+      volume: 'Volume'

@@ -1,1 +1,12 @@
-%li= 'Parcel'
+%li
+  %h4
+    ="#{parcel.box.name} ##{parcel_counter + 1}"
+    %small="#{number_with_delimiter(parcel.filled_volume)}/#{number_with_delimiter(parcel.volume)}"
+  %table.table.table-striped
+    %tr
+      %th="#"
+      %th=t('table.product.number')
+      %th=t('table.product.name')
+      %th=t('table.product.volume')
+    =render(partial: 'product', collection: parcel.products)
+
