@@ -1,0 +1,33 @@
+.item-inline {
+  float: left;
+  .control-label {
+    width: auto;
+  }
+  select, input {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}
+
+.order_items_name {
+  input {
+    width: 400px;
+  }
+}
+
+.order_items_counter {
+  input {
+    width: 50px;
+  }
+}
+
+.item-inline.error {
+  span.help-inline {
+    display: block;
+    margin-left: 55px;
+  }
+}
+
+#item-template{
+  display: none;
+}

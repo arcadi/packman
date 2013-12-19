@@ -1,0 +1,17 @@
+= simple_form_for @order, :html => { :class => 'form-horizontal' } do |f|
+
+  = f.input :box, as: :select, collection: Box.all.map{|b| [b.title, b.id]}
+
+  %legend
+    = t 'legends.items'
+    %a.add-item-link.btn.btn-success.btn-small
+      %i.icon-plus
+      =t 'buttons.item.add'
+  .items
+    = render(partial: 'item', collection: @order.items)
+
+  .form-actions
+    = f.button :submit, value: t('buttons.order.pack'), :class => 'btn-primary'
+
+#item-template
+  = render(partial: 'item', object: Item.new)

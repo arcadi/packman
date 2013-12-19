@@ -1,0 +1,8 @@
+.controls.controls-row
+  = simple_fields_for "order[items][]", item do |item_form|
+    = item_form.input :number, as: :hidden, wrapper: :item
+    = item_form.input :name, wrapper: :item, input_html: { autocomplete: 'off' }
+    = item_form.input :counter, wrapper: :item, as: :integer
+    %a.remove-item-link.btn.btn-danger.btn-small
+      %i.icon-trash
+      =t 'buttons.item.remove'

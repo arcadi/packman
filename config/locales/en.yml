@@ -20,4 +20,20 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  headers:
+    new_order: "New order"
+  buttons:
+    order:
+      pack: 'Pack'
+    item:
+      add: 'Add'
+      remove: 'Remove'
+  legends:
+    items: 'Products items'
+  errors:
+    item:
+      incorrect_name: 'Incorrect name'
+      out_of_stock: 'Out of stock'
+    order:
+      box_not_found: 'Box not found'
+      incorrect_items: 'Items are incorrect'

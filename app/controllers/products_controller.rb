@@ -51,6 +51,14 @@ class ProductsController < ApplicationController
     end
   end
 
+  # GET /products/typeahead.json
+  def typeahead
+    @products = Product.search(params[:query], params[:exclude])
+    respond_to do |format|
+      format.json
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_product

@@ -65,18 +65,18 @@ describe BoxesController do
     describe "with valid params" do
       it "creates a new Box" do
         expect {
-          post :create, {:box => valid_attributes}, valid_session
+          post :show, {:box => valid_attributes}, valid_session
         }.to change(Box, :count).by(1)
       end
 
       it "assigns a newly created box as @box" do
-        post :create, {:box => valid_attributes}, valid_session
+        post :show, {:box => valid_attributes}, valid_session
         assigns(:box).should be_a(Box)
         assigns(:box).should be_persisted
       end
 
       it "redirects to the created box" do
-        post :create, {:box => valid_attributes}, valid_session
+        post :show, {:box => valid_attributes}, valid_session
         response.should redirect_to(Box.last)
       end
     end
@@ -85,14 +85,14 @@ describe BoxesController do
       it "assigns a newly created but unsaved box as @box" do
         # Trigger the behavior that occurs when invalid params are submitted
         Box.any_instance.stub(:save).and_return(false)
-        post :create, {:box => { "name" => "invalid value" }}, valid_session
+        post :show, {:box => { "name" => "invalid value" }}, valid_session
         assigns(:box).should be_a_new(Box)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Box.any_instance.stub(:save).and_return(false)
-        post :create, {:box => { "name" => "invalid value" }}, valid_session
+        post :show, {:box => { "name" => "invalid value" }}, valid_session
         response.should render_template("new")
       end
     end
