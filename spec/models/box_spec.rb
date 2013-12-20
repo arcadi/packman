@@ -6,7 +6,7 @@ describe Box do
   it { should validate_uniqueness_of(:name) }
   it { should validate_numericality_of(:volume).only_integer }
 
-  describe '#tile' do
+  describe '#title' do
 
     it 'should contain name' do
       box = build(:box)

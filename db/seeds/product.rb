@@ -12,11 +12,6 @@ PRODUCTS = [
   "Goanna Eucalyptus Oil 100ml",
   "Bisolvon Chesty Kids Liquid Strawberry 200ml ",
   "Bisolvon Dry Honey Lime Pastille X 20",
-  "Pharmacy Action Cold & Flu Relief PE Day & Night Tab X 24 (Generic for Codral Day & Night)",
-  "Pharmacy Action Cold & Flu Relief PE Tab X 24 (Generic for Codral Cold and Flu)",
-  "Pharmacy Action Nasal Decongestant Spray 20ml (Generic for Sudafed Nasal Decongestant)",
-  "Pharmacy Action Diarrhoea Relief Cap X 20 (Generic for IMODIUM)",
-  "Pharmacy Action Dry Cough Relief 200ml (Generic for Benadryl Dry, Tickly Cough)",
   "Chemists' Own Children's Cold & Allergy Mixture 100ml",
   "Ease A Cold Kids Cold & Flu Relief 120ml",
   "Benadryl Mucus Relief Double Action 200ml",
@@ -45,10 +40,18 @@ PRODUCTS = [
   "Swisse Ultiboost High Strength C Tab X 60 ",
   "Ease A Cold Flu, Aches & Pain Day & Night Cap X 24",
   "Nature's Own Echinacea Complex Tab X 50",
-  "Olive Leaf Australia Olive Leaf Extract Mixed Berry Flavour 500ml",
   "Olive Leaf Australia Olive Skin Repair 200g"
 ]
 
-PRODUCTS.each do |product|
-
+PRODUCTS.each do |name|
+  product = Product.find_by_name(name)
+  Product.create(
+    number: "#{rand(1000)}-#{rand(1000)}-#{rand(1000)}",
+    name: name,
+    width: rand(10)+1,
+    height: rand(10)+1,
+    depth: rand(10)+1,
+    weight: rand(10)+1,
+    stock_level: rand(10)+1,
+  ) unless product
 end
