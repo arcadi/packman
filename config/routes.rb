@@ -10,6 +10,16 @@ Packman::Application.routes.draw do
     end
   end
 
+  namespace :api do
+    resource :version, only: [:show]
+
+    namespace :v1 do
+      resources :boxes, except: [:edit, :new]
+      resources :products, except: [:edit, :new]
+    end
+
+  end
+
   get "welcome/index"
 
   root 'welcome#index'

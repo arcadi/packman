@@ -23,10 +23,8 @@ class Parcel
     products.reduce(0) { |sum, product| sum + product.volume }
   end
 
-
   def space_enough?(product)
     product.volume <= free_volume
   end
-
 
 end
