@@ -3,7 +3,7 @@ class BoxesController < ApplicationController
 
   # GET /boxes
   def index
-    @boxes = Box.all
+    @boxes = Box.order(:name).all
   end
 
   # GET /boxes/1
