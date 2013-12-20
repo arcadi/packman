@@ -1,13 +1,11 @@
-# Read about factories at https://github.com/thoughtbot/factory_girl
-
 FactoryGirl.define do
   factory :product do
-    number "MyString"
-    name "MyString"
-    width 1.5
-    height 1.5
-    depth 1.5
-    weight 1.5
+    sequence(:number) { |n| "111-#{n}-222" }
+    sequence(:name) { |n| "name #{n}" }
+    width 1
+    height 1
+    depth 1
+    weight 1
     stock_level 1
   end
 end

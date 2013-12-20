@@ -1,17 +1,31 @@
 require 'spec_helper'
 
 describe OrdersController do
+  let(:product) { create(:product) }
+  let(:box) { create(:box) }
+  let(:valid_attributes) {
+    {
+      "box" => box.id,
+      "item" => {
+        "number" => product.number,
+        "name" => product.name,
+        "counter" => product.stock_level
+      }
+    }
+  }
+
 
   describe "GET 'new'" do
-    it "returns http success" do
-      get 'new'
+    it "assigns a new order as @order" do
+      get :new
+      assigns(:order).should be_a(Order)
       response.should be_success
     end
   end
 
-  describe "GET 'create'" do
+  describe "POST 'create'" do
     it "returns http success" do
-      get 'create'
+      post :create, order: valid_attributes
       response.should be_success
     end
   end

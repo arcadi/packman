@@ -4,20 +4,20 @@ describe "boxes/index" do
   before(:each) do
     assign(:boxes, [
       stub_model(Box,
-        :name => "Name",
-        :volume => 1
+        :name => "BigBox",
+        :volume => 555
       ),
       stub_model(Box,
-        :name => "Name",
-        :volume => 1
+        :name => "BigBox",
+        :volume => 555
       )
     ])
   end
 
   it "renders a list of boxes" do
     render
-    # Run the generator again with the --webrat flag if you want to use webrat matchers
-    assert_select "tr>td", :text => "Name".to_s, :count => 2
-    assert_select "tr>td", :text => 1.to_s, :count => 2
+
+    assert_select "tr>td>a", :text => "BigBox", :count => 2
+    assert_select "tr>td", :text => 555.to_s, :count => 2
   end
 end

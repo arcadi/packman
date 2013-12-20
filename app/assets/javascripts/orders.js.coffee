@@ -28,7 +28,7 @@ addItemBlock = (element) ->
     if $('.items .controls-row').length > 1
       $(element).remove()
 
-$ ->
+$( document ).ready ->
   $('.items .controls-row').each (endex, element)->
     addItemBlock(element)
 

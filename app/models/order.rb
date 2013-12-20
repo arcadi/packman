@@ -11,7 +11,7 @@ class Order
 
   def initialize(params={})
     @box = params[:box]
-    @box_model = Box.find_by_id(@box)
+    @box_model = Box.find_by_id(@box) unless @box.blank?
     @items = parse_items(params[:items]) || [Item.new]
   end
 

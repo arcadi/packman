@@ -1,7 +1,8 @@
 class Item
   include ActiveModel::Model
 
-  attr_accessor :name, :number, :counter, :product
+  attr_accessor :name, :number, :counter
+  attr_writer :product
 
   validates :number, presence: true
   validates :name, presence: true
@@ -10,19 +11,23 @@ class Item
   validate :number_validation
   validate :products_validation
 
-  def blank?
-    name.nil? && number.nil? && counter.nil?
-  end
-
   def initialize(params={})
     super
     @counter = params[:counter].to_i
   end
 
+  def product
+    @product ||= Product.find_by_number(number) if number.present?
+  end
+
   private
 
   def products_validation
-    errors.add(:counter, I18n.t('errors.item.out_of_stock')) if product.present? && product.stock_level < counter
+    if product.present?
+      errors.add(:counter, I18n.t('errors.item.out_of_stock')) if product.stock_level < counter
+    else
+      errors.add(:name, I18n.t('errors.item.not_found'))
+    end
   end
 
   def number_validation

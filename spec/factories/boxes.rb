@@ -1,8 +1,6 @@
-# Read about factories at https://github.com/thoughtbot/factory_girl
-
 FactoryGirl.define do
   factory :box do
-    name "MyString"
-    volume 1
+    sequence(:name) { |n| "box #{n}" }
+    volume 10
   end
 end

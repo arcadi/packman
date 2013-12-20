@@ -1,6 +1,7 @@
 require 'spec_helper'
 
-describe ProductsController do
+describe Api::V1::ProductsController do
+  render_views
 
   # This should return the minimal set of attributes required to create a valid
   # Product. As you add validations to Product, be sure to
@@ -17,35 +18,37 @@ describe ProductsController do
     }
   }
 
+  let(:attributes_keys) { (valid_attributes.keys + ["volume", "url"]).sort }
+
   describe "GET index" do
-    it "assigns all products as @products" do
-      product = create(:product)
-      get :index, {}
-      assigns(:products).should eq([product])
+    let!(:product) { create(:product) }
+
+    it "should return products in json " do
+      get :index, {format: 'json'}
+      body = JSON.parse(response.body)
+      body.should be_a(Array)
+      body.first.keys.sort.should == attributes_keys
+      body.first["name"].should == product.name
+      body.first["number"].should == product.number
     end
   end
 
   describe "GET show" do
+    let!(:product) { create(:product) }
+
     it "assigns the requested product as @product" do
-      product = create(:product)
       get :show, {:id => product.to_param}
       assigns(:product).should eq(product)
     end
-  end
 
-  describe "GET new" do
-    it "assigns a new product as @product" do
-      get :new, {}
-      assigns(:product).should be_a_new(Product)
+    it "should return product in json " do
+      get :show, {:id => product.to_param}
+      body = JSON.parse(response.body)
+      body.keys.sort.should == attributes_keys - ["url"]
+      body["name"].should == product.name
+      body["number"].should == product.number
     end
-  end
 
-  describe "GET edit" do
-    it "assigns the requested product as @product" do
-      product = create(:product)
-      get :edit, {:id => product.to_param}
-      assigns(:product).should eq(product)
-    end
   end
 
   describe "POST create" do
@@ -62,10 +65,13 @@ describe ProductsController do
         assigns(:product).should be_persisted
       end
 
-      it "redirects to the created product" do
+      it "display created product" do
         post :create, {:product => valid_attributes}
-        response.should redirect_to(products_url)
+        body = JSON.parse(response.body)
+        body.keys.sort.should == attributes_keys - ["url"]
+        body["name"].should == valid_attributes["name"]
       end
+
     end
 
     describe "with invalid params" do
@@ -76,12 +82,13 @@ describe ProductsController do
         assigns(:product).should be_a_new(Product)
       end
 
-      it "re-renders the 'new' template" do
+      it "renders the 422 error" do
         # Trigger the behavior that occurs when invalid params are submitted
         Product.any_instance.stub(:save).and_return(false)
-        post :create, {:product => {"number" => "invalid value"}}
-        response.should render_template("new")
+        post :create, {:product => {"name" => "invalid value"}}
+        response.status.should == 422
       end
+
     end
   end
 
@@ -103,11 +110,6 @@ describe ProductsController do
         assigns(:product).should eq(product)
       end
 
-      it "redirects to the product" do
-        product = create(:product)
-        put :update, {:id => product.to_param, :product => valid_attributes}
-        response.should redirect_to(products_url)
-      end
     end
 
     describe "with invalid params" do
@@ -119,13 +121,14 @@ describe ProductsController do
         assigns(:product).should eq(product)
       end
 
-      it "re-renders the 'edit' template" do
+      it "renders the 422 error" do
         product = create(:product)
         # Trigger the behavior that occurs when invalid params are submitted
         Product.any_instance.stub(:save).and_return(false)
-        put :update, {:id => product.to_param, :product => {"number" => "invalid value"}}
-        response.should render_template("edit")
+        put :update, {:id => product.to_param, :product => {"name" => "invalid value"}}
+        response.status.should == 422
       end
+
     end
   end
 
@@ -137,23 +140,6 @@ describe ProductsController do
       }.to change(Product, :count).by(-1)
     end
 
-    it "redirects to the products list" do
-      product = create(:product)
-      delete :destroy, {:id => product.to_param}
-      response.should redirect_to(products_url)
-    end
-  end
-
-
-  describe "GET typeahead" do
-    it "assigns found products as @products" do
-      product1 = create(:product, name: "test")
-      product2 = create(:product, name: "test again")
-      product3 = create(:product, name: "test three")
-      product4 = create(:product, name: "other name")
-      get :typeahead, query: "test", exclude: [product3.number], format: 'json'
-      assigns(:products).sort.should eq([product1, product2].sort)
-    end
   end
 
 end

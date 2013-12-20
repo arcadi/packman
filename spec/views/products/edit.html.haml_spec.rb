@@ -5,11 +5,11 @@ describe "products/edit" do
     @product = assign(:product, stub_model(Product,
       :number => "MyString",
       :name => "MyString",
-      :width => 1.5,
-      :height => 1.5,
-      :depth => 1.5,
-      :weight => 1.5,
-      :stock_level => 1
+      :width => 11,
+      :height => 22,
+      :depth => 33,
+      :weight => 44,
+      :stock_level => 55
     ))
   end
 

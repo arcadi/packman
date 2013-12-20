@@ -1,41 +1,44 @@
 require 'spec_helper'
 
-describe BoxesController do
+describe Api::V1::BoxesController do
+  render_views
 
   # This should return the minimal set of attributes required to create a valid
   # Box. As you add validations to Box, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) { {"name" => "MyString", "volume" => 100} }
+  let(:attributes_keys) { %w[name volume id url].sort }
 
   describe "GET index" do
-    it "assigns all boxes as @boxes" do
-      box = create(:box)
-      get :index, {}
-      assigns(:boxes).should eq([box])
+    let!(:box) { create(:box) }
+
+    it "should return boxes in json " do
+      get :index, {format: 'json'}
+      body = JSON.parse(response.body)
+      body.should be_a(Array)
+      body.first.keys.sort.should == attributes_keys
+      body.first["name"].should == box.name
+      body.first["volume"].should == box.volume
     end
+
   end
 
   describe "GET show" do
+    let!(:box) { create(:box) }
+
     it "assigns the requested box as @box" do
-      box = create(:box)
       get :show, {:id => box.to_param}
       assigns(:box).should eq(box)
     end
-  end
 
-  describe "GET new" do
-    it "assigns a new box as @box" do
-      get :new, {}
-      assigns(:box).should be_a_new(Box)
+    it "should return box in json " do
+      get :show, {:id => box.to_param}
+      body = JSON.parse(response.body)
+      body.keys.sort.should == attributes_keys - ["url"]
+      body["name"].should == box.name
+      body["volume"].should == box.volume
     end
-  end
 
-  describe "GET edit" do
-    it "assigns the requested box as @box" do
-      box = create(:box)
-      get :edit, {:id => box.to_param}
-      assigns(:box).should eq(box)
-    end
   end
 
   describe "POST create" do
@@ -52,9 +55,11 @@ describe BoxesController do
         assigns(:box).should be_persisted
       end
 
-      it "redirects to the created box" do
+      it "display created box" do
         post :create, {:box => valid_attributes}
-        response.should redirect_to(boxes_url)
+        body = JSON.parse(response.body)
+        body.keys.sort.should == attributes_keys - ["url"]
+        body["name"].should == valid_attributes["name"]
       end
     end
 
@@ -66,11 +71,11 @@ describe BoxesController do
         assigns(:box).should be_a_new(Box)
       end
 
-      it "re-renders the 'new' template" do
+      it "renders the 422 error" do
         # Trigger the behavior that occurs when invalid params are submitted
         Box.any_instance.stub(:save).and_return(false)
         post :create, {:box => {"name" => "invalid value"}}
-        response.should render_template("new")
+        response.status.should == 422
       end
     end
   end
@@ -79,10 +84,6 @@ describe BoxesController do
     describe "with valid params" do
       it "updates the requested box" do
         box = create(:box)
-        # Assuming there are no other boxes in the database, this
-        # specifies that the Box created on the previous line
-        # receives the :update_attributes message with whatever params are
-        # submitted in the request.
         Box.any_instance.should_receive(:update).with({"name" => "MyString"})
         put :update, {:id => box.to_param, :box => {"name" => "MyString"}}
       end
@@ -93,11 +94,6 @@ describe BoxesController do
         assigns(:box).should eq(box)
       end
 
-      it "redirects to the boxes list" do
-        box = create(:box)
-        put :update, {:id => box.to_param, :box => valid_attributes}
-        response.should redirect_to(boxes_path)
-      end
     end
 
     describe "with invalid params" do
@@ -109,12 +105,12 @@ describe BoxesController do
         assigns(:box).should eq(box)
       end
 
-      it "re-renders the 'edit' template" do
+      it "renders the 422 error" do
         box = create(:box)
         # Trigger the behavior that occurs when invalid params are submitted
         Box.any_instance.stub(:save).and_return(false)
-        put :update, {:id => box.to_param, :box => {"name" => "invalid value"}}
-        response.should render_template("edit")
+        put :update, {:id => box.to_param, :box => {"number" => "invalid value"}}
+        response.status.should == 422
       end
     end
   end
@@ -127,11 +123,6 @@ describe BoxesController do
       }.to change(Box, :count).by(-1)
     end
 
-    it "redirects to the boxes list" do
-      box = create(:box)
-      delete :destroy, {:id => box.to_param}
-      response.should redirect_to(boxes_path)
-    end
   end
 
 end
